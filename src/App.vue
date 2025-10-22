@@ -5,11 +5,23 @@ import FooterBar from './components/FooterBar.vue'
 import SectionHero from './components/SectionHero.vue'
 import Dashboard from './components/Dashboard.vue'
 import PublicModule from './components/PublicModule.vue'
+import LoginModal from './components/LoginModal.vue'
 
 const view = ref<'inicio' | 'dashboard' | 'publico'>('inicio')
+const loginOpen = ref(false)
+const authToken = ref<string | null>(null)
 
 function navigate(to: 'inicio' | 'dashboard' | 'publico') {
   view.value = to
+}
+
+function openLogin() {
+  loginOpen.value = true
+}
+
+function onLoginSuccess(payload: { token: string; email: string }) {
+  authToken.value = payload.token
+  view.value = 'dashboard'
 }
 </script>
 
@@ -17,10 +29,11 @@ function navigate(to: 'inicio' | 'dashboard' | 'publico') {
   <div class="min-h-screen flex flex-col bg-slate-25">
     <NavBar :active="view" @navigate="navigate">
       <template #actions>
-        <a
-          href="#"
+        <button
+          type="button"
+          @click="openLogin"
           class="hidden md:inline-flex items-center rounded-lg bg-primary-600 px-3 py-2 text-sm font-medium text-white shadow-soft hover:bg-primary-700"
-          >Acceso servidores públicos</a
+          >Acceso servidores públicos</button
         >
       </template>
     </NavBar>
@@ -63,6 +76,8 @@ function navigate(to: 'inicio' | 'dashboard' | 'publico') {
     </main>
 
     <FooterBar />
+
+    <LoginModal :open="loginOpen" @close="loginOpen=false" @success="onLoginSuccess" />
   </div>
 </template>
 
