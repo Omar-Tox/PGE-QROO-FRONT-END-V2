@@ -45,6 +45,22 @@ async function safeFetch<T>(path: string, fallback: T): Promise<T> {
   }
 }
 
+async function safePost<T>(path: string, body: unknown, fallback: T): Promise<T> {
+  try {
+    const res = await fetch(`${DEFAULT_BASE_URL}${path}`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(body),
+    })
+    if (!res.ok) return fallback
+    return (await res.json()) as T
+  } catch {
+    return fallback
+  }
+}
+
+export type LoginResponse = { token: string }
+
 export const api = {
   async getDashboard(): Promise<DashboardPayload> {
     const fallback: DashboardPayload = mockDashboard()
@@ -63,6 +79,10 @@ export const api = {
     const q = params?.departmentId ? `?departmentId=${encodeURIComponent(params.departmentId)}` : ''
     const fallback = mockDashboard().predictions
     return safeFetch<Prediction[]>(`/predictions${q}`, fallback)
+  },
+  async login(email: string, password: string): Promise<LoginResponse> {
+    const fallback: LoginResponse = { token: 'demo-token' }
+    return safePost<LoginResponse>('/auth/login', { email, password }, fallback)
   },
 }
 
