@@ -77,7 +77,8 @@ const navItems = [
 
 const activeItem = computed(() => navItems.find(i => i.id === active.value) || navItems[0])
 
-watch(active, (newVal) => {
-  emit('navigate', newVal)
-})
+const handleClick = (id: string) => {
+  active.value = id
+  emit('navigate', id)
+}
 </script>
