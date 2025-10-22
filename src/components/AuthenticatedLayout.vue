@@ -58,7 +58,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref, computed } from 'vue'
+import { ref, computed, watch } from 'vue'
 
 const props = defineProps<{ active: string; userEmail: string }>()
 const emit = defineEmits<{ (e: 'logout'): void }>()
