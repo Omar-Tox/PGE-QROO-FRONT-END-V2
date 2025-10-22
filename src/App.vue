@@ -32,9 +32,8 @@ function onLoginSuccess(payload: { token: string; email: string }) {
         <button
           type="button"
           @click="openLogin"
-          class="hidden md:inline-flex items-center rounded-lg bg-primary-600 px-3 py-2 text-sm font-medium text-white shadow-soft hover:bg-primary-700"
-          >Acceso servidores públicos</button
-        >
+          class="inline-flex items-center rounded-lg bg-primary-600 px-3 py-2 text-sm font-medium text-white shadow-soft hover:bg-primary-700"
+          >Acceso servidores públicos</button>
       </template>
     </NavBar>
 
