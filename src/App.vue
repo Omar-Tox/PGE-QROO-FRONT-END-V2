@@ -6,10 +6,20 @@ import SectionHero from './components/SectionHero.vue'
 import Dashboard from './components/Dashboard.vue'
 import PublicModule from './components/PublicModule.vue'
 import LoginModal from './components/LoginModal.vue'
+import AuthenticatedLayout from './components/AuthenticatedLayout.vue'
+import DashboardPage from './components/pages/DashboardPage.vue'
+import AnalysisPage from './components/pages/AnalysisPage.vue'
+import DependenciesPage from './components/pages/DependenciesPage.vue'
+import PropertiesPage from './components/pages/PropertiesPage.vue'
+import ImportPage from './components/pages/ImportPage.vue'
+import BudgetsPage from './components/pages/BudgetsPage.vue'
+import UsersPage from './components/pages/UsersPage.vue'
 
 const view = ref<'inicio' | 'dashboard' | 'publico'>('inicio')
 const loginOpen = ref(false)
 const authToken = ref<string | null>(null)
+const userEmail = ref('')
+const activeAuthPage = ref('dashboard')
 
 function navigate(to: 'inicio' | 'dashboard' | 'publico') {
   view.value = to
@@ -21,7 +31,19 @@ function openLogin() {
 
 function onLoginSuccess(payload: { token: string; email: string }) {
   authToken.value = payload.token
-  view.value = 'dashboard'
+  userEmail.value = payload.email
+  loginOpen.value = false
+}
+
+function logout() {
+  authToken.value = null
+  userEmail.value = ''
+  activeAuthPage.value = 'dashboard'
+  view.value = 'inicio'
+}
+
+function navigateAuth(page: string) {
+  activeAuthPage.value = page
 }
 </script>
 
