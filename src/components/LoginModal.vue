@@ -3,9 +3,16 @@
     <div class="absolute inset-0 bg-slate-900/50" @click="emit('close')" />
     <div class="absolute inset-0 grid place-items-center p-4">
       <div class="w-full max-w-md rounded-2xl bg-white shadow-soft border border-slate-200">
+        <div class="flex items-start justify-between p-6 border-b border-slate-200">
+          <div>
+            <h2 class="text-xl font-semibold text-slate-900">Acceso para servidores públicos</h2>
+            <p class="mt-1 text-sm text-slate-600">Inicia sesión con tu correo institucional.</p>
+          </div>
+          <button type="button" @click="emit('close')" class="text-slate-400 hover:text-slate-600 flex-shrink-0">
+            <svg viewBox="0 0 24 24" class="h-6 w-6"><path fill="currentColor" d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41z"/></svg>
+          </button>
+        </div>
         <div class="p-6">
-          <h2 class="text-xl font-semibold text-slate-900">Acceso para servidores públicos</h2>
-          <p class="mt-1 text-sm text-slate-600">Inicia sesión con tu correo institucional.</p>
           <form class="mt-6 space-y-4" @submit.prevent="onSubmit">
             <div>
               <label for="email" class="block text-sm font-medium text-slate-700">Correo electrónico</label>
