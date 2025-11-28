@@ -104,18 +104,18 @@ const emit = defineEmits<{
 }>()
 
 const email = ref('')
-const password = ref('')
+const contrasena = ref('')
 const loading = ref(false)
 const error = ref('')
 
-const valid = computed(() => /.+@.+\..+/.test(email.value) && password.value.length >= 6)
+const valid = computed(() => /.+@.+\..+/.test(email.value) && contrasena.value.length >= 6)
 
 async function onSubmit() {
   error.value = ''
   loading.value = true
   try {
-    const res = await api.login(email.value, password.value)
-    emit('success', { token: res.token, email: email.value })
+    const res = await api.login(email.value, contrasena.value)
+    emit('success', { token: res.acces_token, email: email.value })
     emit('close')
   } catch (e: any) {
     error.value = 'Credenciales inválidas o servicio no disponible.'
