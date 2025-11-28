@@ -9,10 +9,10 @@
       </div>
 
       <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 items-stretch">
-        <div class="lg:col-span-2 rounded-xl border border-slate-200 bg-white p-5 shadow-soft">
+        <div class="lg:col-span-2 rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 p-5 shadow-soft">
           <div class="flex items-center justify-between">
-            <h3 class="text-base font-semibold text-slate-900">Tendencia reciente de consumo</h3>
-            <select v-model="selected" class="rounded-md border-slate-300 text-sm">
+            <h3 class="text-base font-semibold text-slate-900 dark:text-slate-100">Tendencia reciente de consumo</h3>
+            <select v-model="selected" class="rounded-md border-slate-300 dark:border-slate-600 dark:bg-slate-700 dark:text-slate-100 text-sm">
               <option value="all">Todas</option>
               <option v-for="d in data.departments" :key="d.id" :value="d.id">{{ d.name }}</option>
             </select>
@@ -20,23 +20,23 @@
           <div class="mt-4">
             <BarChartMini :values="chartValues" />
           </div>
-          <p class="mt-2 text-xs text-slate-500">Valores normalizados de kWh de los últimos meses.</p>
+          <p class="mt-2 text-xs text-slate-500 dark:text-slate-400">Valores normalizados de kWh de los últimos meses.</p>
         </div>
 
-        <div class="rounded-xl border border-slate-200 bg-white p-5 shadow-soft">
-          <h3 class="text-base font-semibold text-slate-900">Predicción (próximo mes)</h3>
+        <div class="rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 p-5 shadow-soft">
+          <h3 class="text-base font-semibold text-slate-900 dark:text-slate-100">Predicción (próximo mes)</h3>
           <ul class="mt-4 space-y-3">
             <li v-for="p in data.predictions" :key="p.departmentId" class="flex items-center justify-between">
-              <span class="text-sm text-slate-700">{{ nameById(p.departmentId) }}</span>
-              <span class="text-sm font-semibold text-slate-900">{{ formatCurrency(p.predictedCost) }}</span>
+              <span class="text-sm text-slate-700 dark:text-slate-300">{{ nameById(p.departmentId) }}</span>
+              <span class="text-sm font-semibold text-slate-900 dark:text-slate-100">{{ formatCurrency(p.predictedCost) }}</span>
             </li>
           </ul>
-          <p class="mt-3 text-xs text-slate-500">Estimaciones generadas a partir de tendencias históricas.</p>
+          <p class="mt-3 text-xs text-slate-500 dark:text-slate-400">Estimaciones generadas a partir de tendencias históricas.</p>
         </div>
       </div>
 
       <div class="space-y-3">
-        <h3 class="text-base font-semibold text-slate-900">Histórico de consumo</h3>
+        <h3 class="text-base font-semibold text-slate-900 dark:text-slate-100">Histórico de consumo</h3>
         <TableEnergy :rows="data.history" :departments="data.departments" />
       </div>
     </div>
