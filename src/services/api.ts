@@ -1,20 +1,20 @@
 export interface Department {
-  id: string
+  id: string | number
   name: string
-  building: string
-  city: string
+  building?: string
+  city?: string
 }
 
 export interface HistoricalRecord {
-  departmentId: string
-  month: string // YYYY-MM
+  departmentId: string | number
+  month: string
   kwh: number
   cost: number
 }
 
 export interface Prediction {
-  departmentId: string
-  month: string // YYYY-MM
+  departmentId: string | number
+  month: string
   predictedCost: number
 }
 
@@ -32,57 +32,299 @@ export interface DashboardPayload {
   summary: BudgetSummary
 }
 
-const DEFAULT_BASE_URL = import.meta.env?.VITE_API_BASE_URL || '/api'
-
-async function safeFetch<T>(path: string, fallback: T): Promise<T> {
-  try {
-    const res = await fetch(`${DEFAULT_BASE_URL}${path}`)
-    if (!res.ok) return fallback
-    const data = (await res.json()) as T
-    return data
-  } catch {
-    return fallback
+export interface LoginResponse {
+  message: string
+  acces_token: string
+  token_type: string
+  user: {
+    id: number
+    nombre: string
+    nombre_usuario: string
+    email: string
   }
 }
 
-async function safePost<T>(path: string, body: unknown, fallback: T): Promise<T> {
+export interface User {
+  id: number
+  nombre: string
+  nombre_usuario: string
+  email: string
+}
+
+const API_BASE_URL = 'http://127.0.0.1:8000'
+
+let authToken: string | null = null
+
+function getAuthHeaders() {
+  const headers: HeadersInit = {
+    'Content-Type': 'application/json',
+  }
+  if (authToken) {
+    headers['Authorization'] = `Bearer ${authToken}`
+  }
+  return headers
+}
+
+function setAuthToken(token: string) {
+  authToken = token
+  localStorage.setItem('auth_token', token)
+}
+
+function getStoredToken() {
+  if (!authToken) {
+    authToken = localStorage.getItem('auth_token')
+  }
+  return authToken
+}
+
+async function apiFetch<T>(path: string, options: RequestInit = {}): Promise<T> {
+  const token = getStoredToken()
+  const headers = getAuthHeaders()
+  
+  const response = await fetch(`${API_BASE_URL}${path}`, {
+    ...options,
+    headers: {
+      ...headers,
+      ...(options.headers || {}),
+    },
+  })
+
+  if (!response.ok) {
+    const errorText = await response.text()
+    throw new Error(`API Error: ${response.status} ${errorText}`)
+  }
+
+  const data = await response.json()
+  return data as T
+}
+
+async function safeApiFetch<T>(path: string, fallback: T, options: RequestInit = {}): Promise<T> {
   try {
-    const res = await fetch(`${DEFAULT_BASE_URL}${path}`, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(body),
-    })
-    if (!res.ok) return fallback
-    return (await res.json()) as T
-  } catch {
+    return await apiFetch<T>(path, options)
+  } catch (error) {
+    console.error(`API request failed for ${path}:`, error)
     return fallback
   }
 }
-
-export type LoginResponse = { token: string }
 
 export const api = {
-  async getDashboard(): Promise<DashboardPayload> {
-    const fallback: DashboardPayload = mockDashboard()
-    return safeFetch<DashboardPayload>('/dashboard', fallback)
+  setToken(token: string) {
+    setAuthToken(token)
   },
-  async getDepartments(): Promise<Department[]> {
-    const fallback = mockDashboard().departments
-    return safeFetch<Department[]>('/departments', fallback)
+
+  clearToken() {
+    authToken = null
+    localStorage.removeItem('auth_token')
   },
-  async getHistory(params?: { departmentId?: string }): Promise<HistoricalRecord[]> {
-    const q = params?.departmentId ? `?departmentId=${encodeURIComponent(params.departmentId)}` : ''
-    const fallback = mockDashboard().history
-    return safeFetch<HistoricalRecord[]>(`/history${q}`, fallback)
+
+  async login(email: string, contrasena: string): Promise<LoginResponse> {
+    const response = await apiFetch<LoginResponse>('/login', {
+      method: 'POST',
+      body: JSON.stringify({ email, contrasena }),
+    })
+    setAuthToken(response.acces_token)
+    return response
   },
-  async getPredictions(params?: { departmentId?: string }): Promise<Prediction[]> {
-    const q = params?.departmentId ? `?departmentId=${encodeURIComponent(params.departmentId)}` : ''
-    const fallback = mockDashboard().predictions
-    return safeFetch<Prediction[]>(`/predictions${q}`, fallback)
+
+  async logout(): Promise<void> {
+    try {
+      await apiFetch('/logout', { method: 'POST' })
+    } finally {
+      clearToken()
+    }
   },
-  async login(email: string, password: string): Promise<LoginResponse> {
-    const fallback: LoginResponse = { token: 'demo-token' }
-    return safePost<LoginResponse>('/auth/login', { email, password }, fallback)
+
+  async getMe(): Promise<User> {
+    const fallback: User = { id: 0, nombre: '', nombre_usuario: '', email: '' }
+    return safeApiFetch<User>('/auth/me', fallback)
+  },
+
+  async getDependencias(): Promise<Department[]> {
+    const fallback: Department[] = []
+    return safeApiFetch<Department[]>('/dependencias', fallback)
+  },
+
+  async createDependencia(data: any): Promise<Department> {
+    return apiFetch<Department>('/dependencias', {
+      method: 'POST',
+      body: JSON.stringify(data),
+    })
+  },
+
+  async getDependenciaById(id: string | number): Promise<Department> {
+    const fallback: Department = { id, name: '' }
+    return safeApiFetch<Department>(`/dependencias/${id}`, fallback)
+  },
+
+  async updateDependencia(id: string | number, data: any): Promise<Department> {
+    return apiFetch<Department>(`/dependencias/${id}`, {
+      method: 'PUT',
+      body: JSON.stringify(data),
+    })
+  },
+
+  async patchDependencia(id: string | number, data: any): Promise<Department> {
+    return apiFetch<Department>(`/dependencias/${id}`, {
+      method: 'PATCH',
+      body: JSON.stringify(data),
+    })
+  },
+
+  async deleteDependencia(id: string | number): Promise<void> {
+    await apiFetch(`/dependencias/${id}`, { method: 'DELETE' })
+  },
+
+  async getEdificiosByDependencia(dependenciaId: string | number): Promise<any[]> {
+    const fallback: any[] = []
+    return safeApiFetch<any[]>(`/dependencias/${dependenciaId}/edificios`, fallback)
+  },
+
+  async createEdificio(dependenciaId: string | number, data: any): Promise<any> {
+    return apiFetch(`/dependencias/${dependenciaId}/edificios`, {
+      method: 'POST',
+      body: JSON.stringify(data),
+    })
+  },
+
+  async getPresupuestosByDependencia(dependenciaId: string | number): Promise<any[]> {
+    const fallback: any[] = []
+    return safeApiFetch<any[]>(`/dependencias/${dependenciaId}/presupuestos`, fallback)
+  },
+
+  async createPresupuesto(dependenciaId: string | number, data: any): Promise<any> {
+    return apiFetch(`/dependencias/${dependenciaId}/presupuestos`, {
+      method: 'POST',
+      body: JSON.stringify(data),
+    })
+  },
+
+  async uploadConsumosMasiva(file: File): Promise<any> {
+    const formData = new FormData()
+    formData.append('file', file)
+    
+    const headers = getAuthHeaders()
+    delete headers['Content-Type']
+    
+    const response = await fetch(`${API_BASE_URL}/consumos/carga-masiva`, {
+      method: 'POST',
+      headers,
+      body: formData,
+    })
+
+    if (!response.ok) {
+      throw new Error(`Upload failed: ${response.status}`)
+    }
+
+    return response.json()
+  },
+
+  async getDashboard(): Promise<any> {
+    const fallback = mockDashboard()
+    return safeApiFetch<any>('/dashboard', fallback)
+  },
+
+  async getRankingDependencias(): Promise<any[]> {
+    const fallback: any[] = []
+    return safeApiFetch<any[]>('/analisis/ranking-dependencias', fallback)
+  },
+
+  async getUsuarios(): Promise<User[]> {
+    const fallback: User[] = []
+    return safeApiFetch<User[]>('/usuarios', fallback)
+  },
+
+  async createUsuario(data: any): Promise<User> {
+    return apiFetch<User>('/usuarios', {
+      method: 'POST',
+      body: JSON.stringify(data),
+    })
+  },
+
+  async getUsuarioById(id: string | number): Promise<User> {
+    const fallback: User = { id: 0, nombre: '', nombre_usuario: '', email: '' }
+    return safeApiFetch<User>(`/usuarios/${id}`, fallback)
+  },
+
+  async updateUsuario(id: string | number, data: any): Promise<User> {
+    return apiFetch<User>(`/usuarios/${id}`, {
+      method: 'PUT',
+      body: JSON.stringify(data),
+    })
+  },
+
+  async patchUsuario(id: string | number, data: any): Promise<User> {
+    return apiFetch<User>(`/usuarios/${id}`, {
+      method: 'PATCH',
+      body: JSON.stringify(data),
+    })
+  },
+
+  async deleteUsuario(id: string | number): Promise<void> {
+    await apiFetch(`/usuarios/${id}`, { method: 'DELETE' })
+  },
+
+  async getIntegracionGobierno(): Promise<any> {
+    const fallback: any = {}
+    return safeApiFetch<any>('/integracion/gobierno', fallback)
+  },
+
+  async getKPIs(): Promise<any> {
+    const fallback: any = {}
+    return safeApiFetch<any>('/analisis/dashboard/kpis', fallback)
+  },
+
+  async getEvolucion(): Promise<any> {
+    const fallback: any = {}
+    return safeApiFetch<any>('/analisis/dashboard/evolucion', fallback)
+  },
+
+  async getTendencia(): Promise<any> {
+    const fallback: any = {}
+    return safeApiFetch<any>('/analisis/dashboard/tendencia', fallback)
+  },
+
+  async getRanking(): Promise<any> {
+    const fallback: any = {}
+    return safeApiFetch<any>('/analisis/dashboard/ranking', fallback)
+  },
+
+  async getProyeccionMatematica(): Promise<any> {
+    const fallback: any = {}
+    return safeApiFetch<any>('/prediccion/proyeccion-matematica', fallback)
+  },
+
+  async getIAAnalisisEstrategico(): Promise<any> {
+    const fallback: any = {}
+    return safeApiFetch<any>('/prediccion/ia-analisis-estrategico', fallback)
+  },
+
+  async getCatalogos(type: string, parentId?: string | number): Promise<any[]> {
+    const fallback: any[] = []
+    let path = `/catalogos/${type}`
+    if (parentId) {
+      path = `/catalogos/${type}/${parentId}`
+    }
+    return safeApiFetch<any[]>(path, fallback)
+  },
+
+  async getPublicoComparativaConsumo(params?: any): Promise<any> {
+    const fallback: any = {}
+    return safeApiFetch<any>('/analisis/publico/comparativa-consumo', fallback)
+  },
+
+  async getPublicoComparativaCostos(params?: any): Promise<any> {
+    const fallback: any = {}
+    return safeApiFetch<any>('/analisis/publico/comparativa-costos', fallback)
+  },
+
+  async getPublicoRanking(params?: any): Promise<any> {
+    const fallback: any = {}
+    return safeApiFetch<any>('/analisis/publico/ranking', fallback)
+  },
+
+  async getPublicoPresupuestoVsGasto(params?: any): Promise<any> {
+    const fallback: any = {}
+    return safeApiFetch<any>('/analisis/publico/presupuesto-vs-gasto', fallback)
   },
 }
 
