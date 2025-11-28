@@ -43,6 +43,7 @@ function logout() {
   userEmail.value = ''
   activeAuthPage.value = 'dashboard'
   view.value = 'inicio'
+  api.clearToken()
 }
 
 function navigateAuth(page: string) {
