@@ -47,13 +47,13 @@
             </div>
             <div>
               <label
-                for="password"
+                for="contrasena"
                 class="block text-sm font-medium text-slate-700 dark:text-slate-300"
                 >Contraseña</label
               >
               <input
-                id="password"
-                v-model="password"
+                id="contrasena"
+                v-model="contrasena"
                 type="password"
                 required
                 minlength="6"
