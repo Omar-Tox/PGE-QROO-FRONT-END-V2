@@ -14,6 +14,7 @@ import PropertiesPage from './components/pages/PropertiesPage.vue'
 import ImportPage from './components/pages/ImportPage.vue'
 import BudgetsPage from './components/pages/BudgetsPage.vue'
 import UsersPage from './components/pages/UsersPage.vue'
+import { api } from './services/api'
 
 const view = ref<'inicio' | 'dashboard' | 'publico'>('inicio')
 const loginOpen = ref(false)
