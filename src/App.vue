@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref } from 'vue'
+import { ref, watch, onMounted } from 'vue'
 import NavBar from './components/NavBar.vue'
 import FooterBar from './components/FooterBar.vue'
 import SectionHero from './components/SectionHero.vue'
@@ -20,6 +20,7 @@ const loginOpen = ref(false)
 const authToken = ref<string | null>(null)
 const userEmail = ref('')
 const activeAuthPage = ref('dashboard')
+const isDarkMode = ref(false)
 
 function navigate(to: 'inicio' | 'dashboard' | 'publico') {
   view.value = to
@@ -45,12 +46,35 @@ function logout() {
 function navigateAuth(page: string) {
   activeAuthPage.value = page
 }
+
+function toggleDarkMode() {
+  isDarkMode.value = !isDarkMode.value
+}
+
+onMounted(() => {
+  const savedDarkMode = localStorage.getItem('dark-mode')
+  if (savedDarkMode !== null) {
+    isDarkMode.value = savedDarkMode === 'true'
+  } else {
+    isDarkMode.value = window.matchMedia('(prefers-color-scheme: dark)').matches
+  }
+})
+
+watch(isDarkMode, (newValue) => {
+  localStorage.setItem('dark-mode', String(newValue))
+  const htmlElement = document.documentElement
+  if (newValue) {
+    htmlElement.classList.add('dark')
+  } else {
+    htmlElement.classList.remove('dark')
+  }
+})
 </script>
 
 <template>
   <div>
     <template v-if="authToken">
-      <AuthenticatedLayout :active="activeAuthPage" :userEmail="userEmail" @logout="logout" @navigate="navigateAuth">
+      <AuthenticatedLayout :active="activeAuthPage" :userEmail="userEmail" :isDarkMode="isDarkMode" @logout="logout" @navigate="navigateAuth" @toggleDarkMode="toggleDarkMode">
         <DashboardPage v-if="activeAuthPage==='dashboard'" />
         <AnalysisPage v-else-if="activeAuthPage==='analysis'" />
         <DependenciesPage v-else-if="activeAuthPage==='dependencies'" />
@@ -62,8 +86,8 @@ function navigateAuth(page: string) {
     </template>
 
     <template v-else>
-      <div class="min-h-screen flex flex-col bg-slate-25">
-        <NavBar :active="view" @navigate="navigate">
+      <div class="min-h-screen flex flex-col bg-slate-25 dark:bg-slate-950">
+        <NavBar :active="view" :isDarkMode="isDarkMode" @navigate="navigate" @toggleDarkMode="toggleDarkMode">
           <template #actions>
             <button
               type="button"
