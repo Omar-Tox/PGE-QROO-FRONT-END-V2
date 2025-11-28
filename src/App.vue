@@ -74,44 +74,63 @@ watch(isDarkMode, (newValue) => {
 <template>
   <div>
     <template v-if="authToken">
-      <AuthenticatedLayout :active="activeAuthPage" :userEmail="userEmail" :isDarkMode="isDarkMode" @logout="logout" @navigate="navigateAuth" @toggleDarkMode="toggleDarkMode">
-        <DashboardPage v-if="activeAuthPage==='dashboard'" />
-        <AnalysisPage v-else-if="activeAuthPage==='analysis'" />
-        <DependenciesPage v-else-if="activeAuthPage==='dependencies'" />
-        <PropertiesPage v-else-if="activeAuthPage==='properties'" />
-        <ImportPage v-else-if="activeAuthPage==='import'" />
-        <BudgetsPage v-else-if="activeAuthPage==='budgets'" />
-        <UsersPage v-else-if="activeAuthPage==='users'" />
+      <AuthenticatedLayout
+        :active="activeAuthPage"
+        :userEmail="userEmail"
+        :isDarkMode="isDarkMode"
+        @logout="logout"
+        @navigate="navigateAuth"
+        @toggleDarkMode="toggleDarkMode"
+      >
+        <DashboardPage v-if="activeAuthPage === 'dashboard'" />
+        <AnalysisPage v-else-if="activeAuthPage === 'analysis'" />
+        <DependenciesPage v-else-if="activeAuthPage === 'dependencies'" />
+        <PropertiesPage v-else-if="activeAuthPage === 'properties'" />
+        <ImportPage v-else-if="activeAuthPage === 'import'" />
+        <BudgetsPage v-else-if="activeAuthPage === 'budgets'" />
+        <UsersPage v-else-if="activeAuthPage === 'users'" />
       </AuthenticatedLayout>
     </template>
 
     <template v-else>
       <div class="min-h-screen flex flex-col bg-slate-25 dark:bg-slate-950">
-        <NavBar :active="view" :isDarkMode="isDarkMode" @navigate="navigate" @toggleDarkMode="toggleDarkMode">
+        <NavBar
+          :active="view"
+          :isDarkMode="isDarkMode"
+          @navigate="navigate"
+          @toggleDarkMode="toggleDarkMode"
+        >
           <template #actions>
             <button
               type="button"
               @click="openLogin"
               class="inline-flex items-center rounded-lg bg-primary-600 px-3 py-2 text-sm font-medium text-white shadow-soft hover:bg-primary-700"
-              >Acceso servidores públicos</button>
+            >
+              Acceso servidores públicos
+            </button>
           </template>
         </NavBar>
 
         <main class="flex-1">
-          <SectionHero v-if="view==='inicio'" @action="navigate" />
-          <Dashboard v-else-if="view==='dashboard'" />
+          <SectionHero v-if="view === 'inicio'" @action="navigate" />
+          <Dashboard v-else-if="view === 'dashboard'" />
           <PublicModule v-else />
 
           <section class="container py-10">
             <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
-              <div class="lg:col-span-2 rounded-2xl border border-slate-200 bg-white p-8 shadow-soft">
+              <div
+                class="lg:col-span-2 rounded-2xl border border-slate-200 bg-white p-8 shadow-soft"
+              >
                 <h2 class="text-xl font-semibold text-slate-900">Objetivo general</h2>
                 <p class="mt-2 text-slate-600">
-                  Desarrollar una plataforma que se interconecte con los datos de las dependencias para centralizar, analizar y
-                  predecir el consumo y gasto energético en Quintana Roo, optimizando la asignación presupuestal y promoviendo la eficiencia.
+                  Desarrollar una plataforma que se interconecte con los datos de las dependencias
+                  para centralizar, analizar y predecir el consumo y gasto energético en Quintana
+                  Roo, optimizando la asignación presupuestal y promoviendo la eficiencia.
                 </p>
                 <h3 class="mt-6 text-base font-semibold text-slate-900">Objetivos específicos</h3>
-                <ul class="mt-2 grid grid-cols-1 md:grid-cols-2 gap-3 text-slate-600 list-disc list-inside">
+                <ul
+                  class="mt-2 grid grid-cols-1 md:grid-cols-2 gap-3 text-slate-600 list-disc list-inside"
+                >
                   <li>Analítica de datos históricos con reportes y patrones de consumo.</li>
                   <li>Modelo predictivo para estimar gastos futuros por dependencia.</li>
                   <li>Dashboard intuitivo para exploración de datos.</li>
@@ -121,10 +140,12 @@ watch(isDarkMode, (newValue) => {
               <div class="rounded-2xl border border-slate-200 bg-white p-8 shadow-soft">
                 <h2 class="text-xl font-semibold text-slate-900">Interoperabilidad y API</h2>
                 <p class="mt-2 text-slate-600">
-                  Este sistema está preparado para consumir una API externa. Configure la variable VITE_API_BASE_URL para apuntar al servicio de datos abiertos.
+                  Este sistema está preparado para consumir una API externa. Configure la variable
+                  VITE_API_BASE_URL para apuntar al servicio de datos abiertos.
                 </p>
                 <div class="mt-4 rounded-lg bg-slate-50 p-3 text-xs text-slate-600">
-                  GET <span class="text-slate-900">/dashboard</span> — Resumen, histórico y predicciones
+                  GET <span class="text-slate-900">/dashboard</span> — Resumen, histórico y
+                  predicciones
                 </div>
                 <div class="mt-2 rounded-lg bg-slate-50 p-3 text-xs text-slate-600">
                   GET <span class="text-slate-900">/departments</span> — Catálogo de dependencias
@@ -136,7 +157,7 @@ watch(isDarkMode, (newValue) => {
 
         <FooterBar />
 
-        <LoginModal :open="loginOpen" @close="loginOpen=false" @success="onLoginSuccess" />
+        <LoginModal :open="loginOpen" @close="loginOpen = false" @success="onLoginSuccess" />
       </div>
     </template>
   </div>
