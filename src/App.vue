@@ -33,6 +33,7 @@ function openLogin() {
 function onLoginSuccess(payload: { token: string; email: string }) {
   authToken.value = payload.token
   userEmail.value = payload.email
+  api.setToken(payload.token)
   loginOpen.value = false
 }
 
