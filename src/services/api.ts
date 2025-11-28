@@ -80,7 +80,7 @@ function getStoredToken() {
 async function apiFetch<T>(path: string, options: RequestInit = {}): Promise<T> {
   const token = getStoredToken()
   const headers = getAuthHeaders()
-  
+
   const response = await fetch(`${API_BASE_URL}${path}`, {
     ...options,
     headers: {
@@ -201,10 +201,10 @@ export const api = {
   async uploadConsumosMasiva(file: File): Promise<any> {
     const formData = new FormData()
     formData.append('file', file)
-    
+
     const headers = getAuthHeaders()
     delete headers['Content-Type']
-    
+
     const response = await fetch(`${API_BASE_URL}/consumos/carga-masiva`, {
       method: 'POST',
       headers,
@@ -332,7 +332,12 @@ function mockDashboard(): DashboardPayload {
   const departments: Department[] = [
     { id: 'fin', name: 'Secretaría de Finanzas', building: 'Edificio Central', city: 'Chetumal' },
     { id: 'sal', name: 'Secretaría de Salud', building: 'Hospital General', city: 'Cancún' },
-    { id: 'edu', name: 'Secretaría de Educación', building: 'Complejo Administrativo', city: 'Playa del Carmen' },
+    {
+      id: 'edu',
+      name: 'Secretaría de Educación',
+      building: 'Complejo Administrativo',
+      city: 'Playa del Carmen',
+    },
   ]
   const months = ['2025-06', '2025-07', '2025-08', '2025-09']
   const history: HistoricalRecord[] = []
