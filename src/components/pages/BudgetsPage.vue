@@ -1,7 +1,7 @@
 <template>
   <div class="p-8 space-y-8">
     <div class="flex items-center justify-between">
-      <h2 class="text-2xl font-bold text-slate-900">Presupuestos Asignados</h2>
+      <h2 class="text-2xl font-bold text-slate-900 dark:text-slate-100">Presupuestos Asignados</h2>
       <button @click="showModal=true" class="inline-flex items-center gap-2 rounded-lg bg-primary-600 px-4 py-2 text-white font-medium hover:bg-primary-700">
         <svg viewBox="0 0 24 24" class="h-5 w-5"><path fill="currentColor" d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"/></svg>
         Asignar Presupuesto
@@ -9,40 +9,40 @@
     </div>
 
     <div class="grid grid-cols-3 gap-4">
-      <div class="rounded-xl bg-white border border-slate-200 p-5">
-        <p class="text-xs uppercase tracking-wide text-slate-500">Presupuesto Total Q4 2025</p>
-        <p class="mt-2 text-2xl font-bold text-slate-900">$27,100,000</p>
+      <div class="rounded-xl bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 p-5">
+        <p class="text-xs uppercase tracking-wide text-slate-500 dark:text-slate-400">Presupuesto Total Q4 2025</p>
+        <p class="mt-2 text-2xl font-bold text-slate-900 dark:text-slate-100">$27,100,000</p>
       </div>
-      <div class="rounded-xl bg-white border border-slate-200 p-5">
-        <p class="text-xs uppercase tracking-wide text-slate-500">Dependencias con Presupuesto</p>
-        <p class="mt-2 text-2xl font-bold text-slate-900">5</p>
+      <div class="rounded-xl bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 p-5">
+        <p class="text-xs uppercase tracking-wide text-slate-500 dark:text-slate-400">Dependencias con Presupuesto</p>
+        <p class="mt-2 text-2xl font-bold text-slate-900 dark:text-slate-100">5</p>
       </div>
-      <div class="rounded-xl bg-white border border-slate-200 p-5">
-        <p class="text-xs uppercase tracking-wide text-slate-500">Promedio por Dependencia</p>
-        <p class="mt-2 text-2xl font-bold text-slate-900">$5,420,000</p>
+      <div class="rounded-xl bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 p-5">
+        <p class="text-xs uppercase tracking-wide text-slate-500 dark:text-slate-400">Promedio por Dependencia</p>
+        <p class="mt-2 text-2xl font-bold text-slate-900 dark:text-slate-100">$5,420,000</p>
       </div>
     </div>
 
-    <div class="bg-white rounded-xl border border-slate-200 overflow-hidden">
+    <div class="bg-white dark:bg-slate-800 rounded-xl border border-slate-200 dark:border-slate-700 overflow-hidden">
       <table class="w-full text-sm">
-        <thead class="bg-slate-50">
+        <thead class="bg-slate-50 dark:bg-slate-900">
           <tr>
-            <th class="px-6 py-3 text-left font-semibold text-slate-900">Dependencia</th>
-            <th class="px-6 py-3 text-left font-semibold text-slate-900">Año</th>
-            <th class="px-6 py-3 text-left font-semibold text-slate-900">Trimestre</th>
-            <th class="px-6 py-3 text-right font-semibold text-slate-900">Monto Asignado</th>
-            <th class="px-6 py-3 text-center font-semibold text-slate-900">Acciones</th>
+            <th class="px-6 py-3 text-left font-semibold text-slate-900 dark:text-slate-100">Dependencia</th>
+            <th class="px-6 py-3 text-left font-semibold text-slate-900 dark:text-slate-100">Año</th>
+            <th class="px-6 py-3 text-left font-semibold text-slate-900 dark:text-slate-100">Trimestre</th>
+            <th class="px-6 py-3 text-right font-semibold text-slate-900 dark:text-slate-100">Monto Asignado</th>
+            <th class="px-6 py-3 text-center font-semibold text-slate-900 dark:text-slate-100">Acciones</th>
           </tr>
         </thead>
         <tbody>
-          <tr v-for="b in budgets" :key="b.id" class="border-t border-slate-200">
-            <td class="px-6 py-4 text-slate-900">{{ b.dependency }}</td>
-            <td class="px-6 py-4 text-slate-700">{{ b.year }}</td>
-            <td class="px-6 py-4"><span class="text-blue-600 font-medium">{{ b.quarter }}</span></td>
-            <td class="px-6 py-4 text-right font-semibold text-slate-900">{{ formatCurrency(b.amount) }}</td>
+          <tr v-for="b in budgets" :key="b.id" class="border-t border-slate-200 dark:border-slate-700">
+            <td class="px-6 py-4 text-slate-900 dark:text-slate-100">{{ b.dependency }}</td>
+            <td class="px-6 py-4 text-slate-700 dark:text-slate-300">{{ b.year }}</td>
+            <td class="px-6 py-4"><span class="text-blue-600 dark:text-blue-400 font-medium">{{ b.quarter }}</span></td>
+            <td class="px-6 py-4 text-right font-semibold text-slate-900 dark:text-slate-100">{{ formatCurrency(b.amount) }}</td>
             <td class="px-6 py-4 text-center space-x-2">
-              <button class="text-slate-600 hover:text-primary-600"><svg viewBox="0 0 24 24" class="h-5 w-5"><path fill="currentColor" d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25z"/></svg></button>
-              <button class="text-slate-600 hover:text-red-600"><svg viewBox="0 0 24 24" class="h-5 w-5"><path fill="currentColor" d="M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12zM19 4h-3.5l-1-1h-9l-1 1H5v2h14V4z"/></svg></button>
+              <button class="text-slate-600 dark:text-slate-400 hover:text-primary-600 dark:hover:text-primary-400"><svg viewBox="0 0 24 24" class="h-5 w-5"><path fill="currentColor" d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25z"/></svg></button>
+              <button class="text-slate-600 dark:text-slate-400 hover:text-red-600 dark:hover:text-red-400"><svg viewBox="0 0 24 24" class="h-5 w-5"><path fill="currentColor" d="M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12zM19 4h-3.5l-1-1h-9l-1 1H5v2h14V4z"/></svg></button>
             </td>
           </tr>
         </tbody>
@@ -52,32 +52,32 @@
     <Modal v-if="showModal" title="Asignar Nuevo Presupuesto" @close="showModal=false">
       <form class="space-y-4">
         <div>
-          <label class="block text-sm font-medium text-slate-700">Seleccionar Dependencia *</label>
-          <select class="mt-1 block w-full rounded-lg border border-slate-300 px-3 py-2">
+          <label class="block text-sm font-medium text-slate-700 dark:text-slate-300">Seleccionar Dependencia *</label>
+          <select class="mt-1 block w-full rounded-lg border border-slate-300 dark:border-slate-600 dark:bg-slate-700 dark:text-slate-100 px-3 py-2">
             <option>Secretaría de Finanzas</option>
             <option>Secretaría de Educación</option>
           </select>
         </div>
         <div>
-          <label class="block text-sm font-medium text-slate-700">Año Fiscal *</label>
-          <select class="mt-1 block w-full rounded-lg border border-slate-300 px-3 py-2">
+          <label class="block text-sm font-medium text-slate-700 dark:text-slate-300">Año Fiscal *</label>
+          <select class="mt-1 block w-full rounded-lg border border-slate-300 dark:border-slate-600 dark:bg-slate-700 dark:text-slate-100 px-3 py-2">
             <option>2025</option>
             <option>2026</option>
           </select>
         </div>
         <div>
-          <label class="block text-sm font-medium text-slate-700">Trimestre *</label>
-          <select class="mt-1 block w-full rounded-lg border border-slate-300 px-3 py-2">
+          <label class="block text-sm font-medium text-slate-700 dark:text-slate-300">Trimestre *</label>
+          <select class="mt-1 block w-full rounded-lg border border-slate-300 dark:border-slate-600 dark:bg-slate-700 dark:text-slate-100 px-3 py-2">
             <option>Q4 (Oct-Dec)</option>
             <option>Q1 (Ene-Mar)</option>
           </select>
         </div>
         <div>
-          <label class="block text-sm font-medium text-slate-700">Monto Asignado (MXN) *</label>
-          <input type="number" placeholder="0.00" class="mt-1 block w-full rounded-lg border border-slate-300 px-3 py-2" />
+          <label class="block text-sm font-medium text-slate-700 dark:text-slate-300">Monto Asignado (MXN) *</label>
+          <input type="number" placeholder="0.00" class="mt-1 block w-full rounded-lg border border-slate-300 dark:border-slate-600 dark:bg-slate-700 dark:text-slate-100 px-3 py-2" />
         </div>
         <div class="flex gap-3 justify-end">
-          <button type="button" @click="showModal=false" class="rounded-lg border border-slate-300 px-4 py-2 text-slate-700 hover:bg-slate-50">Cancelar</button>
+          <button type="button" @click="showModal=false" class="rounded-lg border border-slate-300 dark:border-slate-600 px-4 py-2 text-slate-700 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-700">Cancelar</button>
           <button type="button" class="rounded-lg bg-primary-600 px-4 py-2 text-white hover:bg-primary-700">Guardar Presupuesto</button>
         </div>
       </form>
