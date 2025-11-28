@@ -121,13 +121,17 @@ watch(isDarkMode, (newValue) => {
               <div
                 class="lg:col-span-2 rounded-2xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 p-8 shadow-soft"
               >
-                <h2 class="text-xl font-semibold text-slate-900 dark:text-slate-100">Objetivo general</h2>
+                <h2 class="text-xl font-semibold text-slate-900 dark:text-slate-100">
+                  Objetivo general
+                </h2>
                 <p class="mt-2 text-slate-600 dark:text-slate-300">
                   Desarrollar una plataforma que se interconecte con los datos de las dependencias
                   para centralizar, analizar y predecir el consumo y gasto energético en Quintana
                   Roo, optimizando la asignación presupuestal y promoviendo la eficiencia.
                 </p>
-                <h3 class="mt-6 text-base font-semibold text-slate-900 dark:text-slate-100">Objetivos específicos</h3>
+                <h3 class="mt-6 text-base font-semibold text-slate-900 dark:text-slate-100">
+                  Objetivos específicos
+                </h3>
                 <ul
                   class="mt-2 grid grid-cols-1 md:grid-cols-2 gap-3 text-slate-600 dark:text-slate-300 list-disc list-inside"
                 >
@@ -137,18 +141,27 @@ watch(isDarkMode, (newValue) => {
                   <li>Interoperabilidad con el Núcleo Digital de Gobierno.</li>
                 </ul>
               </div>
-              <div class="rounded-2xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 p-8 shadow-soft">
-                <h2 class="text-xl font-semibold text-slate-900 dark:text-slate-100">Interoperabilidad y API</h2>
+              <div
+                class="rounded-2xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 p-8 shadow-soft"
+              >
+                <h2 class="text-xl font-semibold text-slate-900 dark:text-slate-100">
+                  Interoperabilidad y API
+                </h2>
                 <p class="mt-2 text-slate-600 dark:text-slate-300">
                   Este sistema está preparado para consumir una API externa. Configure la variable
                   VITE_API_BASE_URL para apuntar al servicio de datos abiertos.
                 </p>
-                <div class="mt-4 rounded-lg bg-slate-50 dark:bg-slate-900 p-3 text-xs text-slate-600 dark:text-slate-300">
-                  GET <span class="text-slate-900 dark:text-slate-100">/dashboard</span> — Resumen, histórico y
-                  predicciones
+                <div
+                  class="mt-4 rounded-lg bg-slate-50 dark:bg-slate-900 p-3 text-xs text-slate-600 dark:text-slate-300"
+                >
+                  GET <span class="text-slate-900 dark:text-slate-100">/dashboard</span> — Resumen,
+                  histórico y predicciones
                 </div>
-                <div class="mt-2 rounded-lg bg-slate-50 dark:bg-slate-900 p-3 text-xs text-slate-600 dark:text-slate-300">
-                  GET <span class="text-slate-900 dark:text-slate-100">/departments</span> — Catálogo de dependencias
+                <div
+                  class="mt-2 rounded-lg bg-slate-50 dark:bg-slate-900 p-3 text-xs text-slate-600 dark:text-slate-300"
+                >
+                  GET <span class="text-slate-900 dark:text-slate-100">/departments</span> —
+                  Catálogo de dependencias
                 </div>
               </div>
             </div>
