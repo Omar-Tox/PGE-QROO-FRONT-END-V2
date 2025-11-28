@@ -1,23 +1,23 @@
 <template>
   <section class="container py-12">
-    <div class="rounded-2xl border border-slate-200 bg-white p-8 shadow-soft">
-      <h2 class="text-2xl font-semibold text-slate-900">Módulo de Transparencia</h2>
-      <p class="mt-2 text-slate-600 max-w-3xl">
+    <div class="rounded-2xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 p-8 shadow-soft">
+      <h2 class="text-2xl font-semibold text-slate-900 dark:text-slate-100">Módulo de Transparencia</h2>
+      <p class="mt-2 text-slate-600 dark:text-slate-300 max-w-3xl">
         Consulta ciudadana del consumo y gasto energético por dependencia. Esta sección expone indicadores clave y
         series históricas consumidas desde una API pública conforme al Núcleo Digital de Gobierno.
       </p>
       <div class="mt-6 grid grid-cols-1 md:grid-cols-3 gap-6">
-        <div class="rounded-xl border border-slate-200 p-5">
-          <p class="text-sm font-semibold text-slate-900">Indicadores abiertos</p>
-          <p class="mt-1 text-sm text-slate-600">Consumo total, gasto y eficiencia por kWh.</p>
+        <div class="rounded-xl border border-slate-200 dark:border-slate-700 p-5">
+          <p class="text-sm font-semibold text-slate-900 dark:text-slate-100">Indicadores abiertos</p>
+          <p class="mt-1 text-sm text-slate-600 dark:text-slate-400">Consumo total, gasto y eficiencia por kWh.</p>
         </div>
-        <div class="rounded-xl border border-slate-200 p-5">
-          <p class="text-sm font-semibold text-slate-900">Descarga de datos</p>
-          <p class="mt-1 text-sm text-slate-600">Exportación en CSV y JSON desde la API.</p>
+        <div class="rounded-xl border border-slate-200 dark:border-slate-700 p-5">
+          <p class="text-sm font-semibold text-slate-900 dark:text-slate-100">Descarga de datos</p>
+          <p class="mt-1 text-sm text-slate-600 dark:text-slate-400">Exportación en CSV y JSON desde la API.</p>
         </div>
-        <div class="rounded-xl border border-slate-200 p-5">
-          <p class="text-sm font-semibold text-slate-900">Comparativas</p>
-          <p class="mt-1 text-sm text-slate-600">Benchmarking entre dependencias y periodos.</p>
+        <div class="rounded-xl border border-slate-200 dark:border-slate-700 p-5">
+          <p class="text-sm font-semibold text-slate-900 dark:text-slate-100">Comparativas</p>
+          <p class="mt-1 text-sm text-slate-600 dark:text-slate-400">Benchmarking entre dependencias y periodos.</p>
         </div>
       </div>
       <div class="mt-6">
