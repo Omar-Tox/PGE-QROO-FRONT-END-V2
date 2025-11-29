@@ -71,13 +71,28 @@ export const apiFast = {
   /**
    * 2. Proyección Matemática
    */
-  async getProyeccion(dependenciaId: number | null, meses: number = 6): Promise<ProyeccionResponse> {
+  async getProyeccion(
+    dependenciaId: number | null, 
+    meses: number = 6, 
+    verTodoHistorial: boolean = true 
+  ): Promise<ProyeccionResponse> {
+    
     const headers = getAuthHeaders()
-    const params = new URLSearchParams({
-      meses: meses.toString(),
-      ver_todo_historial: 'true'
-    })
-    if (dependenciaId) params.append('dependencia_id', dependenciaId.toString())
+    const params = new URLSearchParams()
+
+    params.append('meses', meses.toString())
+    
+    // CORRECCIÓN: Forzamos la conversión a string minúscula explícita
+    // Si verTodoHistorial es true -> envía "true"
+    // Si verTodoHistorial es false -> envía "false"
+    params.append('ver_todo_historial', verTodoHistorial ? 'true' : 'false')
+
+    if (dependenciaId) {
+      params.append('dependencia_id', dependenciaId.toString())
+    }
+
+    // Debug: Ver en consola qué URL se está llamando
+    console.log(`Llamando a Proyección: ver_todo_historial=${verTodoHistorial}`)
 
     const response = await fetch(`${API_FAST_URL}/prediccion/proyeccion-matematica?${params}`, { headers })
     
