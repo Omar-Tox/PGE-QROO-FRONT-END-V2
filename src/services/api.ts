@@ -1,8 +1,41 @@
-export interface Department {
-  id: string | number
-  name: string
-  building?: string
-  city?: string
+export interface Sector {
+  id_sector: number
+  nombre_sector: string
+  descripcion: string
+}
+
+export interface Dependencia {
+  id_dependencia: number
+  nombre_dependencia: string
+  sector_id: number
+  fecha_alta: string
+  edificios_count: number 
+  edificios: any[] 
+  sector?: Sector
+}
+
+export interface Edificio {
+  id_edificio: number
+  dependencia_id: number
+  nombre_edificio: string
+  direccion: string
+  latitud?: number
+  longitud?: number
+  caracteristicas?: string
+  fecha_alta: string
+}
+
+export interface Presupuesto {
+  id_presupuesto: number
+  dependencia_id: number
+  año: string
+  trimestre: number
+  monto_asignado: string | number
+}
+
+export interface Rol {
+  id_rol: number
+  nombre_rol: string
 }
 
 export interface HistoricalRecord {
@@ -26,7 +59,7 @@ export interface BudgetSummary {
 }
 
 export interface DashboardPayload {
-  departments: Department[]
+  departments: Dependencia[]
   history: HistoricalRecord[]
   predictions: Prediction[]
   summary: BudgetSummary
@@ -51,13 +84,15 @@ export interface User {
   email: string
 }
 
-const API_BASE_URL = 'http://127.0.0.1:8000'
+const API_BASE_URL = 'http://127.0.0.1:8000/api'
+const API_BASE_URL_FASTAPI = 'http://127.0.0.1:8000/api'
 
 let authToken: string | null = null
 
 function getAuthHeaders() {
   const headers: HeadersInit = {
     'Content-Type': 'application/json',
+    'Accept': 'application/json'
   }
   if (authToken) {
     headers['Authorization'] = `Bearer ${authToken}`
@@ -90,8 +125,16 @@ async function apiFetch<T>(path: string, options: RequestInit = {}): Promise<T> 
   })
 
   if (!response.ok) {
-    const errorText = await response.text()
-    throw new Error(`API Error: ${response.status} ${errorText}`)
+    // Intentamos leer la respuesta como JSON primero
+    const contentType = response.headers.get("content-type");
+    if (contentType && contentType.includes("application/json")) {
+      const errorJson = await response.json();
+      // Lanzamos un objeto personalizado en lugar de un Error estándar
+      throw { status: response.status, data: errorJson };
+    }
+    
+    const errorText = await response.text();
+    throw new Error(`API Error: ${response.status} ${errorText}`);
   }
 
   const data = await response.json()
@@ -117,6 +160,12 @@ export const api = {
     localStorage.removeItem('auth_token')
   },
 
+  /**
+   * Login Methods
+   * @param email 
+   * @param contrasena 
+   * @returns 
+   */
   async login(email: string, contrasena: string): Promise<LoginResponse> {
     const response = await apiFetch<LoginResponse>('/login', {
       method: 'POST',
@@ -125,7 +174,6 @@ export const api = {
     setAuthToken(response.acces_token)
     return response
   },
-
   async logout(): Promise<void> {
     try {
       await apiFetch('/logout', { method: 'POST' })
@@ -139,32 +187,35 @@ export const api = {
     return safeApiFetch<User>('/auth/me', fallback)
   },
 
-  async getDependencias(): Promise<Department[]> {
-    const fallback: Department[] = []
-    return safeApiFetch<Department[]>('/dependencias', fallback)
+  /**
+   * Dependencies Methods
+   */
+  async getDependencias(): Promise<Dependencia[]> {
+    const fallback: Dependencia[] = []
+    return safeApiFetch<Dependencia[]>('/dependencias', fallback)
   },
 
-  async createDependencia(data: any): Promise<Department> {
-    return apiFetch<Department>('/dependencias', {
+  async createDependencia(data: any): Promise<Dependencia> {
+    return apiFetch<Dependencia>('/dependencias', {
       method: 'POST',
       body: JSON.stringify(data),
     })
   },
 
-  async getDependenciaById(id: string | number): Promise<Department> {
-    const fallback: Department = { id, name: '' }
-    return safeApiFetch<Department>(`/dependencias/${id}`, fallback)
+  async getDependenciaById(id: string | number): Promise<Dependencia> {
+    const fallback: Dependencia = { id_dependencia: id, nombre_dependencia: '' }
+    return safeApiFetch<Dependencia>(`/dependencias/${id}`, fallback)
   },
 
-  async updateDependencia(id: string | number, data: any): Promise<Department> {
-    return apiFetch<Department>(`/dependencias/${id}`, {
+  async updateDependencia(id: string | number, data: any): Promise<Dependencia> {
+    return apiFetch<Dependencia>(`/dependencias/${id}`, {
       method: 'PUT',
       body: JSON.stringify(data),
     })
   },
 
-  async patchDependencia(id: string | number, data: any): Promise<Department> {
-    return apiFetch<Department>(`/dependencias/${id}`, {
+  async patchDependencia(id: string | number, data: any): Promise<Dependencia> {
+    return apiFetch<Dependencia>(`/dependencias/${id}`, {
       method: 'PATCH',
       body: JSON.stringify(data),
     })
@@ -174,9 +225,21 @@ export const api = {
     await apiFetch(`/dependencias/${id}`, { method: 'DELETE' })
   },
 
-  async getEdificiosByDependencia(dependenciaId: string | number): Promise<any[]> {
-    const fallback: any[] = []
-    return safeApiFetch<any[]>(`/dependencias/${dependenciaId}/edificios`, fallback)
+  /**
+   * Sectors Methods
+   */
+
+  async getSectores(): Promise<Sector[]> {
+    const fallback: Sector[] = []
+    return safeApiFetch<Sector[]>('/sectores', fallback)
+  },
+
+  /**
+   * Edificios Methods
+   */
+  async getEdificiosByDependencia(dependenciaId: string | number): Promise<Edificio[]> {
+    const fallback: Edificio[] = []
+    return safeApiFetch<Edificio[]>(`/dependencias/${dependenciaId}/edificios`, fallback)
   },
 
   async createEdificio(dependenciaId: string | number, data: any): Promise<any> {
@@ -185,6 +248,19 @@ export const api = {
       body: JSON.stringify(data),
     })
   },
+
+  async updateEdificio(id: number, data: Partial<Edificio>): Promise<Edificio> {
+    return apiFetch<Edificio>(`/edificios/${id}`, {
+      method: 'PUT',
+      body: JSON.stringify(data),
+    })
+  },
+
+  // DELETE: Eliminar edificio
+  async deleteEdificio(id: number): Promise<void> {
+    await apiFetch(`/edificios/${id}`, { method: 'DELETE' })
+  },
+
 
   async getPresupuestosByDependencia(dependenciaId: string | number): Promise<any[]> {
     const fallback: any[] = []
@@ -198,21 +274,36 @@ export const api = {
     })
   },
 
+  /**
+   * Consumos Methods
+   */
   async uploadConsumosMasiva(file: File): Promise<any> {
     const formData = new FormData()
-    formData.append('file', file)
+    formData.append('archivo', file) // Cambiado de 'file' a 'archivo' según tu backend
 
     const headers = getAuthHeaders()
+    // Borramos Content-Type para que el navegador lo detecte como multipart/form-data
     delete headers['Content-Type']
+    delete headers['Accept'] // A veces ayuda dejar que el navegador maneje esto, o forzar application/json
 
     const response = await fetch(`${API_BASE_URL}/consumos/carga-masiva`, {
       method: 'POST',
-      headers,
+      headers: {
+        ...headers,
+        'Accept': 'application/json' // Importante para recibir el JSON de error de Laravel
+      },
       body: formData,
     })
 
+    // Manejo de respuesta
     if (!response.ok) {
-      throw new Error(`Upload failed: ${response.status}`)
+      const contentType = response.headers.get("content-type")
+      if (contentType && contentType.includes("application/json")) {
+        const errorJson = await response.json()
+        // Lanzamos el objeto con status y data para que el componente lo procese
+        throw { status: response.status, data: errorJson }
+      }
+      throw new Error(`Error en la carga: ${response.statusText}`)
     }
 
     return response.json()
@@ -240,16 +331,26 @@ export const api = {
     })
   },
 
-  async getUsuarioById(id: string | number): Promise<User> {
-    const fallback: User = { id: 0, nombre: '', nombre_usuario: '', email: '' }
-    return safeApiFetch<User>(`/usuarios/${id}`, fallback)
-  },
-
-  async updateUsuario(id: string | number, data: any): Promise<User> {
+  async updateUsuario(id: number, data: any): Promise<User> {
     return apiFetch<User>(`/usuarios/${id}`, {
       method: 'PUT',
       body: JSON.stringify(data),
     })
+  },
+
+  async deleteUsuario(id: string | number): Promise<void> {
+    await apiFetch(`/usuarios/${id}`, { method: 'DELETE' })
+  },
+
+  async getRoles(): Promise<Rol[]> {
+    const fallback: Rol[] = []
+    // Asumimos que existe este endpoint. Si se llama diferente, avísame.
+    return safeApiFetch<Rol[]>('/roles', fallback)
+  },
+
+  async getUsuarioById(id: string | number): Promise<User> {
+    const fallback: User = { id: 0, nombre: '', nombre_usuario: '', email: '' }
+    return safeApiFetch<User>(`/usuarios/${id}`, fallback)
   },
 
   async patchUsuario(id: string | number, data: any): Promise<User> {
@@ -259,9 +360,7 @@ export const api = {
     })
   },
 
-  async deleteUsuario(id: string | number): Promise<void> {
-    await apiFetch(`/usuarios/${id}`, { method: 'DELETE' })
-  },
+
 
   async getIntegracionGobierno(): Promise<any> {
     const fallback: any = {}
