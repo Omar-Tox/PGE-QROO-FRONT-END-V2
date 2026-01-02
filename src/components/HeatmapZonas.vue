@@ -1,6 +1,8 @@
 <template>
   <div class="space-y-6">
-    <div class="rounded-2xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 p-8 shadow-soft">
+    <div
+      class="rounded-2xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 p-8 shadow-soft"
+    >
       <h2 class="text-xl font-semibold text-slate-900 dark:text-slate-100 mb-2">
         Mapa de Zonas sin Electricidad
       </h2>
@@ -110,7 +112,9 @@
 
     <!-- Zones Statistics -->
     <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-      <div class="rounded-2xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 p-6 shadow-soft">
+      <div
+        class="rounded-2xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 p-6 shadow-soft"
+      >
         <div class="flex items-center justify-between">
           <div>
             <p class="text-sm font-medium text-slate-600 dark:text-slate-400">Zonas Críticas</p>
@@ -118,33 +122,64 @@
           </div>
           <div class="h-12 w-12 rounded-lg bg-red-100 dark:bg-red-900/20 grid place-items-center">
             <svg class="h-6 w-6 text-red-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4v2m0 4v2M6.343 3.665c1.932-.576 4.073-.576 6.012 0 2.397.686 4.413 2.328 5.416 4.589 1.004 2.26 1.004 4.861 0 7.12-.884 2.16-2.307 3.805-4.004 4.686" />
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M12 9v2m0 4v2m0 4v2M6.343 3.665c1.932-.576 4.073-.576 6.012 0 2.397.686 4.413 2.328 5.416 4.589 1.004 2.26 1.004 4.861 0 7.12-.884 2.16-2.307 3.805-4.004 4.686"
+              />
             </svg>
           </div>
         </div>
       </div>
-      <div class="rounded-2xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 p-6 shadow-soft">
+      <div
+        class="rounded-2xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 p-6 shadow-soft"
+      >
         <div class="flex items-center justify-between">
           <div>
             <p class="text-sm font-medium text-slate-600 dark:text-slate-400">Zonas Alerta</p>
             <p class="text-2xl font-bold text-slate-900 dark:text-slate-100 mt-1">3</p>
           </div>
-          <div class="h-12 w-12 rounded-lg bg-orange-100 dark:bg-orange-900/20 grid place-items-center">
-            <svg class="h-6 w-6 text-orange-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4v2m0 0v2M6.343 3.665c1.932-.576 4.073-.576 6.012 0 2.397.686 4.413 2.328 5.416 4.589 1.004 2.26 1.004 4.861 0 7.12-.884 2.16-2.307 3.805-4.004 4.686" />
+          <div
+            class="h-12 w-12 rounded-lg bg-orange-100 dark:bg-orange-900/20 grid place-items-center"
+          >
+            <svg
+              class="h-6 w-6 text-orange-600"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M12 8v4m0 4v2m0 0v2M6.343 3.665c1.932-.576 4.073-.576 6.012 0 2.397.686 4.413 2.328 5.416 4.589 1.004 2.26 1.004 4.861 0 7.12-.884 2.16-2.307 3.805-4.004 4.686"
+              />
             </svg>
           </div>
         </div>
       </div>
-      <div class="rounded-2xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 p-6 shadow-soft">
+      <div
+        class="rounded-2xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 p-6 shadow-soft"
+      >
         <div class="flex items-center justify-between">
           <div>
             <p class="text-sm font-medium text-slate-600 dark:text-slate-400">Total Reportes</p>
             <p class="text-2xl font-bold text-slate-900 dark:text-slate-100 mt-1">427</p>
           </div>
           <div class="h-12 w-12 rounded-lg bg-blue-100 dark:bg-blue-900/20 grid place-items-center">
-            <svg class="h-6 w-6 text-blue-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+            <svg
+              class="h-6 w-6 text-blue-600"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"
+              />
             </svg>
           </div>
         </div>
@@ -152,7 +187,9 @@
     </div>
 
     <!-- Recent Reports Table -->
-    <div class="rounded-2xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 p-8 shadow-soft">
+    <div
+      class="rounded-2xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 p-8 shadow-soft"
+    >
       <h3 class="text-lg font-semibold text-slate-900 dark:text-slate-100 mb-4">
         Reportes Recientes
       </h3>
@@ -178,44 +215,60 @@
             </tr>
           </thead>
           <tbody>
-            <tr class="border-b border-slate-200 dark:border-slate-700 hover:bg-slate-50 dark:hover:bg-slate-700/50">
+            <tr
+              class="border-b border-slate-200 dark:border-slate-700 hover:bg-slate-50 dark:hover:bg-slate-700/50"
+            >
               <td class="py-3 px-4 font-medium text-slate-900 dark:text-slate-100">Zona 1</td>
               <td class="py-3 px-4 text-slate-600 dark:text-slate-400">Centro Histórico</td>
               <td class="py-3 px-4">
-                <span class="inline-flex items-center rounded-full bg-red-100 dark:bg-red-900/30 px-3 py-1 text-xs font-semibold text-red-800 dark:text-red-200">
+                <span
+                  class="inline-flex items-center rounded-full bg-red-100 dark:bg-red-900/30 px-3 py-1 text-xs font-semibold text-red-800 dark:text-red-200"
+                >
                   Crítico
                 </span>
               </td>
               <td class="py-3 px-4 text-slate-900 dark:text-slate-100">78</td>
               <td class="py-3 px-4 text-slate-600 dark:text-slate-400">Hace 15 min</td>
             </tr>
-            <tr class="border-b border-slate-200 dark:border-slate-700 hover:bg-slate-50 dark:hover:bg-slate-700/50">
+            <tr
+              class="border-b border-slate-200 dark:border-slate-700 hover:bg-slate-50 dark:hover:bg-slate-700/50"
+            >
               <td class="py-3 px-4 font-medium text-slate-900 dark:text-slate-100">Zona 2</td>
               <td class="py-3 px-4 text-slate-600 dark:text-slate-400">Playa del Carmen</td>
               <td class="py-3 px-4">
-                <span class="inline-flex items-center rounded-full bg-orange-100 dark:bg-orange-900/30 px-3 py-1 text-xs font-semibold text-orange-800 dark:text-orange-200">
+                <span
+                  class="inline-flex items-center rounded-full bg-orange-100 dark:bg-orange-900/30 px-3 py-1 text-xs font-semibold text-orange-800 dark:text-orange-200"
+                >
                   Alto
                 </span>
               </td>
               <td class="py-3 px-4 text-slate-900 dark:text-slate-100">56</td>
               <td class="py-3 px-4 text-slate-600 dark:text-slate-400">Hace 23 min</td>
             </tr>
-            <tr class="border-b border-slate-200 dark:border-slate-700 hover:bg-slate-50 dark:hover:bg-slate-700/50">
+            <tr
+              class="border-b border-slate-200 dark:border-slate-700 hover:bg-slate-50 dark:hover:bg-slate-700/50"
+            >
               <td class="py-3 px-4 font-medium text-slate-900 dark:text-slate-100">Zona 3</td>
               <td class="py-3 px-4 text-slate-600 dark:text-slate-400">Cozumel</td>
               <td class="py-3 px-4">
-                <span class="inline-flex items-center rounded-full bg-red-100 dark:bg-red-900/30 px-3 py-1 text-xs font-semibold text-red-800 dark:text-red-200">
+                <span
+                  class="inline-flex items-center rounded-full bg-red-100 dark:bg-red-900/30 px-3 py-1 text-xs font-semibold text-red-800 dark:text-red-200"
+                >
                   Crítico
                 </span>
               </td>
               <td class="py-3 px-4 text-slate-900 dark:text-slate-100">92</td>
               <td class="py-3 px-4 text-slate-600 dark:text-slate-400">Hace 8 min</td>
             </tr>
-            <tr class="border-b border-slate-200 dark:border-slate-700 hover:bg-slate-50 dark:hover:bg-slate-700/50">
+            <tr
+              class="border-b border-slate-200 dark:border-slate-700 hover:bg-slate-50 dark:hover:bg-slate-700/50"
+            >
               <td class="py-3 px-4 font-medium text-slate-900 dark:text-slate-100">Zona 4</td>
               <td class="py-3 px-4 text-slate-600 dark:text-slate-400">Felipe Carrillo Puerto</td>
               <td class="py-3 px-4">
-                <span class="inline-flex items-center rounded-full bg-orange-100 dark:bg-orange-900/30 px-3 py-1 text-xs font-semibold text-orange-800 dark:text-orange-200">
+                <span
+                  class="inline-flex items-center rounded-full bg-orange-100 dark:bg-orange-900/30 px-3 py-1 text-xs font-semibold text-orange-800 dark:text-orange-200"
+                >
                   Alto
                 </span>
               </td>
@@ -226,7 +279,9 @@
               <td class="py-3 px-4 font-medium text-slate-900 dark:text-slate-100">Zona 5</td>
               <td class="py-3 px-4 text-slate-600 dark:text-slate-400">Isla Mujeres</td>
               <td class="py-3 px-4">
-                <span class="inline-flex items-center rounded-full bg-amber-100 dark:bg-amber-900/30 px-3 py-1 text-xs font-semibold text-amber-800 dark:text-amber-200">
+                <span
+                  class="inline-flex items-center rounded-full bg-amber-100 dark:bg-amber-900/30 px-3 py-1 text-xs font-semibold text-amber-800 dark:text-amber-200"
+                >
                   Medio
                 </span>
               </td>
