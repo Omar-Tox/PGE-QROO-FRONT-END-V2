@@ -1,110 +1,40 @@
 <template>
   <div class="space-y-6">
-    <div
-      class="rounded-2xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 p-8 shadow-soft"
-    >
+    <!-- Map Container -->
+    <div class="rounded-2xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 p-8 shadow-soft overflow-hidden">
       <h2 class="text-xl font-semibold text-slate-900 dark:text-slate-100 mb-2">
         Mapa de Zonas sin Electricidad
       </h2>
       <p class="text-slate-600 dark:text-slate-400 mb-6">
-        Visualización de áreas reportadas por usuarios con interrupciones de servicio eléctrico
+        Visualización de áreas reportadas por usuarios con interrupciones de servicio eléctrico en Quintana Roo
       </p>
 
-      <div class="bg-slate-50 dark:bg-slate-900 rounded-xl p-1 overflow-x-auto">
-        <svg viewBox="0 0 800 600" class="min-w-full h-auto" xmlns="http://www.w3.org/2000/svg">
-          <!-- Background -->
-          <defs>
-            <linearGradient id="heatGradient1" x1="0%" y1="0%" x2="100%" y2="100%">
-              <stop offset="0%" style="stop-color: #fee5e5; stop-opacity: 1" />
-              <stop offset="50%" style="stop-color: #fcbdbd; stop-opacity: 1" />
-              <stop offset="100%" style="stop-color: #f87171; stop-opacity: 1" />
-            </linearGradient>
-            <linearGradient id="heatGradient2" x1="0%" y1="0%" x2="100%" y2="100%">
-              <stop offset="0%" style="stop-color: #fed7aa; stop-opacity: 1" />
-              <stop offset="100%" style="stop-color: #fb923c; stop-opacity: 1" />
-            </linearGradient>
-            <filter id="glow">
-              <feGaussianBlur stdDeviation="3" result="coloredBlur" />
-              <feMerge>
-                <feMergeNode in="coloredBlur" />
-                <feMergeNode in="SourceGraphic" />
-              </feMerge>
-            </filter>
-          </defs>
-
-          <!-- Map background -->
-          <rect width="800" height="600" fill="#f8fafc" class="dark:fill-slate-800" />
-
-          <!-- Grid lines -->
-          <g stroke="#cbd5e1" stroke-width="1" opacity="0.3" class="dark:stroke-slate-600">
-            <line x1="0" y1="150" x2="800" y2="150" />
-            <line x1="0" y1="300" x2="800" y2="300" />
-            <line x1="0" y1="450" x2="800" y2="450" />
-            <line x1="200" y1="0" x2="200" y2="600" />
-            <line x1="400" y1="0" x2="400" y2="600" />
-            <line x1="600" y1="0" x2="600" y2="600" />
-          </g>
-
-          <!-- High severity zones (rojo intenso) -->
-          <g filter="url(#glow)">
-            <circle cx="150" cy="100" r="45" fill="#dc2626" opacity="0.7" />
-            <circle cx="650" cy="520" r="50" fill="#dc2626" opacity="0.7" />
-          </g>
-
-          <!-- Medium-high severity zones (naranja-rojo) -->
-          <g filter="url(#glow)">
-            <circle cx="400" cy="200" r="55" fill="#f97316" opacity="0.65" />
-            <circle cx="200" cy="450" r="40" fill="#ea580c" opacity="0.65" />
-            <ellipse cx="600" cy="150" rx="50" ry="35" fill="#f97316" opacity="0.65" />
-          </g>
-
-          <!-- Medium severity zones (naranja) -->
-          <g filter="url(#glow)">
-            <circle cx="550" cy="300" r="38" fill="#fbbf24" opacity="0.6" />
-            <circle cx="300" cy="350" r="35" fill="#fcd34d" opacity="0.6" />
-          </g>
-
-          <!-- Low severity zones (amarillo) -->
-          <g filter="url(#glow)">
-            <circle cx="700" cy="250" r="30" fill="#fef3c7" opacity="0.55" />
-            <circle cx="100" cy="550" r="25" fill="#fef3c7" opacity="0.55" />
-          </g>
-
-          <!-- Zone labels -->
-          <g font-size="12" font-weight="600" class="dark:fill-slate-100">
-            <text x="150" y="105" text-anchor="middle" fill="#991b1b">Zona 1</text>
-            <text x="400" y="210" text-anchor="middle" fill="#92400e">Zona 2</text>
-            <text x="650" y="525" text-anchor="middle" fill="#991b1b">Zona 3</text>
-            <text x="200" y="460" text-anchor="middle" fill="#92400e">Zona 4</text>
-            <text x="550" y="310" text-anchor="middle" fill="#b45309">Zona 5</text>
-            <text x="300" y="360" text-anchor="middle" fill="#b45309">Zona 6</text>
-            <text x="600" y="155" text-anchor="middle" fill="#92400e">Zona 7</text>
-            <text x="700" y="255" text-anchor="middle" fill="#d97706">Zona 8</text>
-            <text x="100" y="555" text-anchor="middle" fill="#d97706">Zona 9</text>
-          </g>
-        </svg>
-      </div>
+      <!-- Leaflet Map -->
+      <div
+        ref="mapContainer"
+        class="w-full h-96 rounded-lg border border-slate-200 dark:border-slate-600 overflow-hidden shadow-sm"
+      />
 
       <!-- Legend -->
       <div class="mt-8 grid grid-cols-2 md:grid-cols-5 gap-4">
         <div class="flex items-center gap-2">
-          <div class="w-6 h-6 rounded bg-red-600 shadow-sm" />
+          <div class="w-6 h-6 rounded" style="background-color: #d32f2f" />
           <span class="text-sm text-slate-600 dark:text-slate-400">Crítico (70-100)</span>
         </div>
         <div class="flex items-center gap-2">
-          <div class="w-6 h-6 rounded bg-orange-500 shadow-sm" />
+          <div class="w-6 h-6 rounded" style="background-color: #f57c00" />
           <span class="text-sm text-slate-600 dark:text-slate-400">Alto (50-69)</span>
         </div>
         <div class="flex items-center gap-2">
-          <div class="w-6 h-6 rounded bg-amber-400 shadow-sm" />
+          <div class="w-6 h-6 rounded" style="background-color: #fbc02d" />
           <span class="text-sm text-slate-600 dark:text-slate-400">Medio (30-49)</span>
         </div>
         <div class="flex items-center gap-2">
-          <div class="w-6 h-6 rounded bg-yellow-100 shadow-sm" />
+          <div class="w-6 h-6 rounded" style="background-color: #ffee58" />
           <span class="text-sm text-slate-600 dark:text-slate-400">Bajo (10-29)</span>
         </div>
         <div class="flex items-center gap-2">
-          <div class="w-6 h-6 rounded bg-green-100 shadow-sm" />
+          <div class="w-6 h-6 rounded" style="background-color: #c5e1a5" />
           <span class="text-sm text-slate-600 dark:text-slate-400">Normal (&lt;10)</span>
         </div>
       </div>
@@ -121,7 +51,12 @@
             <p class="text-2xl font-bold text-slate-900 dark:text-slate-100 mt-1">2</p>
           </div>
           <div class="h-12 w-12 rounded-lg bg-red-100 dark:bg-red-900/20 grid place-items-center">
-            <svg class="h-6 w-6 text-red-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <svg
+              class="h-6 w-6 text-red-600"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+            >
               <path
                 stroke-linecap="round"
                 stroke-linejoin="round"
@@ -167,7 +102,9 @@
             <p class="text-sm font-medium text-slate-600 dark:text-slate-400">Total Reportes</p>
             <p class="text-2xl font-bold text-slate-900 dark:text-slate-100 mt-1">427</p>
           </div>
-          <div class="h-12 w-12 rounded-lg bg-blue-100 dark:bg-blue-900/20 grid place-items-center">
+          <div
+            class="h-12 w-12 rounded-lg bg-blue-100 dark:bg-blue-900/20 grid place-items-center"
+          >
             <svg
               class="h-6 w-6 text-blue-600"
               fill="none"
@@ -296,5 +233,121 @@
 </template>
 
 <script setup lang="ts">
-// Heatmap visualization component for zones without electricity
+import { onMounted, ref } from 'vue'
+import L from 'leaflet'
+import 'leaflet/dist/leaflet.css'
+import 'leaflet.heat'
+
+const mapContainer = ref<HTMLDivElement | null>(null)
+
+interface HeatmapPoint {
+  lat: number
+  lng: number
+  intensity: number
+}
+
+const zones: HeatmapPoint[] = [
+  // Chetumal area (critical)
+  { lat: 18.4986, lng: -88.3092, intensity: 0.95 },
+  { lat: 18.5, lng: -88.31, intensity: 0.92 },
+
+  // Playa del Carmen area (high)
+  { lat: 20.6296, lng: -87.0739, intensity: 0.75 },
+  { lat: 20.63, lng: -87.07, intensity: 0.72 },
+  { lat: 20.64, lng: -87.08, intensity: 0.70 },
+
+  // Cancún area (medium-high)
+  { lat: 21.1619, lng: -86.8515, intensity: 0.58 },
+  { lat: 21.16, lng: -86.85, intensity: 0.55 },
+  { lat: 21.17, lng: -86.86, intensity: 0.52 },
+
+  // Tulum area (medium)
+  { lat: 20.2108, lng: -87.4256, intensity: 0.45 },
+  { lat: 20.21, lng: -87.42, intensity: 0.42 },
+
+  // Cozumel area (critical)
+  { lat: 20.5, lng: -87.05, intensity: 0.88 },
+  { lat: 20.51, lng: -87.06, intensity: 0.85 },
+
+  // Isla Mujeres area (low)
+  { lat: 21.2306, lng: -86.7314, intensity: 0.25 },
+
+  // Felipe Carrillo Puerto area (high)
+  { lat: 19.5826, lng: -87.7582, intensity: 0.68 },
+  { lat: 19.58, lng: -87.76, intensity: 0.65 },
+
+  // Additional scattered points across the state
+  { lat: 20.1, lng: -87.5, intensity: 0.35 },
+  { lat: 20.3, lng: -87.3, intensity: 0.30 },
+  { lat: 20.7, lng: -87.2, intensity: 0.40 },
+  { lat: 20.9, lng: -87.0, intensity: 0.28 },
+  { lat: 19.8, lng: -87.8, intensity: 0.32 },
+]
+
+onMounted(() => {
+  if (!mapContainer.value) return
+
+  // Create map centered on Quintana Roo
+  const map = L.map(mapContainer.value).setView([20.5, -87.3], 8)
+
+  // Add OpenStreetMap tiles
+  L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+    attribution: '© OpenStreetMap contributors',
+    maxZoom: 18,
+    maxNativeZoom: 19,
+  }).addTo(map)
+
+  // Prepare heatmap data: [lat, lng, intensity]
+  const heatData = zones.map((zone) => [zone.lat, zone.lng, zone.intensity])
+
+  // Add heatmap layer
+  ;(L.heatLayer as any)(heatData, {
+    radius: 50,
+    blur: 25,
+    maxZoom: 17,
+    max: 1.0,
+    minOpacity: 0.4,
+    gradient: {
+      0.0: '#c5e1a5', // Light green - Low intensity
+      0.2: '#ffee58', // Yellow - Low-medium
+      0.4: '#fbc02d', // Darker yellow - Medium
+      0.6: '#f57c00', // Orange - High
+      1.0: '#d32f2f', // Red - Critical
+    },
+  }).addTo(map)
+
+  // Add markers for major zones
+  const majorZones = [
+    { name: 'Chetumal', lat: 18.4986, lng: -88.3092, severity: 'Crítico' },
+    { name: 'Playa del Carmen', lat: 20.6296, lng: -87.0739, severity: 'Alto' },
+    { name: 'Cancún', lat: 21.1619, lng: -86.8515, severity: 'Medio' },
+    { name: 'Cozumel', lat: 20.5, lng: -87.05, severity: 'Crítico' },
+    { name: 'Isla Mujeres', lat: 21.2306, lng: -86.7314, severity: 'Bajo' },
+    { name: 'Felipe Carrillo Puerto', lat: 19.5826, lng: -87.7582, severity: 'Alto' },
+  ]
+
+  majorZones.forEach((zone) => {
+    const color =
+      zone.severity === 'Crítico'
+        ? '#d32f2f'
+        : zone.severity === 'Alto'
+          ? '#f57c00'
+          : zone.severity === 'Medio'
+            ? '#fbc02d'
+            : zone.severity === 'Bajo'
+              ? '#ffee58'
+              : '#c5e1a5'
+
+    L.circleMarker([zone.lat, zone.lng], {
+      radius: 8,
+      fillColor: color,
+      color: '#fff',
+      weight: 2,
+      opacity: 1,
+      fillOpacity: 0.8,
+    })
+      .bindPopup(`<strong>${zone.name}</strong><br/>Severidad: ${zone.severity}`)
+      .addTo(map)
+  })
+})
 </script>
