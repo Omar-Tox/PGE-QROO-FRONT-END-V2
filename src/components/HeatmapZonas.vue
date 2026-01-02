@@ -322,6 +322,46 @@ onMounted(() => {
     { name: 'Felipe Carrillo Puerto', lat: 19.5826, lng: -87.7582, severity: 'Alto' },
   ]
 
+  // Example zone data with descriptions and images
+  const zoneData: { [key: string]: { description: string; image: string } } = {
+    Chetumal:
+      {
+        description:
+          'Corte de luz en el centro histórico. Afectados aproximadamente 2,500 hogares. Reportado por ciudadano anónimo el 2 de enero a las 14:30 horas. Causa probable: falla en subestación principal.',
+        image: 'https://images.unsplash.com/photo-1581092918056-0c4c3acd3789?w=400&h=200&fit=crop',
+      },
+    'Playa del Carmen':
+      {
+        description:
+          'Interrupción de servicio en zona hotelera. Más de 8 hoteles sin energía eléctrica. Reportado a las 11:15 horas. Equipo de mantenimiento ya en sitio realizando inspecciones.',
+        image: 'https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=400&h=200&fit=crop',
+      },
+    Cancún:
+      {
+        description:
+          'Falla parcial en distribución eléctrica, zona de Torres. Afectados 1,800 usuarios. Reportado hace 45 minutos. Se espera restauración en próximas 2 horas.',
+        image: 'https://images.unsplash.com/photo-1480714378408-67cf0d13bc1b?w=400&h=200&fit=crop',
+      },
+    Cozumel:
+      {
+        description:
+          'Corte total de energía en la isla. Aproximadamente 5,000 habitantes sin servicio. Reportado por múltiples usuarios a las 13:00 horas. Barco de servicio técnico en ruta.',
+        image: 'https://images.unsplash.com/photo-1511632765486-a01980e01a18?w=400&h=200&fit=crop',
+      },
+    'Isla Mujeres':
+      {
+        description:
+          'Intermitencia en el suministro eléctrico. Afectados sectores norte y central. Reportado por residente local. Equipo revisor en operaciones.',
+        image: 'https://images.unsplash.com/photo-1509042239860-f550ce710b93?w=400&h=200&fit=crop',
+      },
+    'Felipe Carrillo Puerto':
+      {
+        description:
+          'Falla en línea de distribución principal. Zona rural con aproximadamente 3,200 personas afectadas. Reportado hace 1 hora. Técnicos en despliegue.',
+        image: 'https://images.unsplash.com/photo-1504384308090-c894fdcc538d?w=400&h=200&fit=crop',
+      },
+  }
+
   majorZones.forEach((zone) => {
     const color =
       zone.severity === 'Crítico'
@@ -334,17 +374,13 @@ onMounted(() => {
               ? '#ffee58'
               : '#c5e1a5'
 
-    const severityColor =
-      zone.severity === 'Crítico'
-        ? 'bg-red-100 text-red-800'
-        : zone.severity === 'Alto'
-          ? 'bg-orange-100 text-orange-800'
-          : zone.severity === 'Medio'
-            ? 'bg-yellow-100 text-yellow-800'
-            : 'bg-green-100 text-green-800'
+    const zoneInfo = zoneData[zone.name] || {
+      description: 'Reporte de corte de electricidad',
+      image: 'https://images.unsplash.com/photo-1541961017774-22349e4a1262?w=400&h=200&fit=crop',
+    }
 
     const popupContent = `
-      <div style="width: 320px; font-family: system-ui, -apple-system, sans-serif;">
+      <div style="width: 340px; font-family: system-ui, -apple-system, sans-serif;">
         <div style="margin-bottom: 12px;">
           <h3 style="margin: 0 0 8px 0; font-size: 16px; font-weight: 600; color: #1e293b;">
             ${zone.name}
@@ -355,30 +391,14 @@ onMounted(() => {
         </div>
 
         <div style="margin-bottom: 12px; border-top: 1px solid #e2e8f0; padding-top: 12px;">
-          <div style="width: 100%; height: 180px; background: linear-gradient(135deg, #e2e8f0 0%, #cbd5e1 100%); border-radius: 8px; display: flex; align-items: center; justify-content: center; color: #64748b; font-size: 13px; text-align: center; padding: 16px; box-sizing: border-box;">
-            <div>
-              <svg style="width: 32px; height: 32px; margin: 0 auto 8px; opacity: 0.5;" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
-              </svg>
-              Imagen del reporte
-            </div>
-          </div>
+          <img src="${zoneInfo.image}" alt="Imagen del reporte" style="width: 100%; height: 160px; object-fit: cover; border-radius: 8px; box-shadow: 0 1px 3px rgba(0,0,0,0.1);" />
         </div>
 
-        <div style="margin-bottom: 12px; border-top: 1px solid #e2e8f0; padding-top: 12px;">
+        <div style="margin-bottom: 0; border-top: 1px solid #e2e8f0; padding-top: 12px;">
           <label style="display: block; font-size: 12px; font-weight: 600; color: #64748b; margin-bottom: 6px;">
             Descripción del reporte:
           </label>
-          <textarea style="width: 100%; height: 80px; padding: 8px; border: 1px solid #e2e8f0; border-radius: 6px; font-size: 12px; font-family: inherit; resize: none; box-sizing: border-box;" placeholder="Detalles del reporte de corte de electricidad..."></textarea>
-        </div>
-
-        <div style="display: flex; gap: 8px; margin-top: 12px; border-top: 1px solid #e2e8f0; padding-top: 12px;">
-          <button style="flex: 1; padding: 8px 12px; background-color: #3b82f6; color: white; border: none; border-radius: 6px; font-size: 12px; font-weight: 600; cursor: pointer; transition: background-color 0.2s;">
-            Guardar
-          </button>
-          <button style="flex: 1; padding: 8px 12px; background-color: #e2e8f0; color: #64748b; border: none; border-radius: 6px; font-size: 12px; font-weight: 600; cursor: pointer; transition: background-color 0.2s;">
-            Cancelar
-          </button>
+          <textarea disabled style="width: 100%; height: 90px; padding: 8px; border: 1px solid #e2e8f0; border-radius: 6px; font-size: 12px; font-family: inherit; resize: none; box-sizing: border-box; background-color: #f8fafc; color: #475569; cursor: not-allowed;">${zoneInfo.description}</textarea>
         </div>
       </div>
     `
