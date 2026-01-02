@@ -324,42 +324,36 @@ onMounted(() => {
 
   // Example zone data with descriptions and images
   const zoneData: { [key: string]: { description: string; image: string } } = {
-    Chetumal:
-      {
-        description:
-          'Corte de luz en el centro histórico. Afectados aproximadamente 2,500 hogares. Reportado por ciudadano anónimo el 2 de enero a las 14:30 horas. Causa probable: falla en subestación principal.',
-        image: 'https://images.unsplash.com/photo-1581092918056-0c4c3acd3789?w=400&h=200&fit=crop',
-      },
-    'Playa del Carmen':
-      {
-        description:
-          'Interrupción de servicio en zona hotelera. Más de 8 hoteles sin energía eléctrica. Reportado a las 11:15 horas. Equipo de mantenimiento ya en sitio realizando inspecciones.',
-        image: 'https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=400&h=200&fit=crop',
-      },
-    Cancún:
-      {
-        description:
-          'Falla parcial en distribución eléctrica, zona de Torres. Afectados 1,800 usuarios. Reportado hace 45 minutos. Se espera restauración en próximas 2 horas.',
-        image: 'https://images.unsplash.com/photo-1480714378408-67cf0d13bc1b?w=400&h=200&fit=crop',
-      },
-    Cozumel:
-      {
-        description:
-          'Corte total de energía en la isla. Aproximadamente 5,000 habitantes sin servicio. Reportado por múltiples usuarios a las 13:00 horas. Barco de servicio técnico en ruta.',
-        image: 'https://images.unsplash.com/photo-1511632765486-a01980e01a18?w=400&h=200&fit=crop',
-      },
-    'Isla Mujeres':
-      {
-        description:
-          'Intermitencia en el suministro eléctrico. Afectados sectores norte y central. Reportado por residente local. Equipo revisor en operaciones.',
-        image: 'https://images.unsplash.com/photo-1509042239860-f550ce710b93?w=400&h=200&fit=crop',
-      },
-    'Felipe Carrillo Puerto':
-      {
-        description:
-          'Falla en línea de distribución principal. Zona rural con aproximadamente 3,200 personas afectadas. Reportado hace 1 hora. Técnicos en despliegue.',
-        image: 'https://images.unsplash.com/photo-1504384308090-c894fdcc538d?w=400&h=200&fit=crop',
-      },
+    Chetumal: {
+      description:
+        'Corte de luz en el centro histórico. Afectados aproximadamente 2,500 hogares. Reportado por ciudadano anónimo el 2 de enero a las 14:30 horas. Causa probable: falla en subestación principal.',
+      image: 'https://images.unsplash.com/photo-1581092918056-0c4c3acd3789?w=400&h=200&fit=crop',
+    },
+    'Playa del Carmen': {
+      description:
+        'Interrupción de servicio en zona hotelera. Más de 8 hoteles sin energía eléctrica. Reportado a las 11:15 horas. Equipo de mantenimiento ya en sitio realizando inspecciones.',
+      image: 'https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=400&h=200&fit=crop',
+    },
+    Cancún: {
+      description:
+        'Falla parcial en distribución eléctrica, zona de Torres. Afectados 1,800 usuarios. Reportado hace 45 minutos. Se espera restauración en próximas 2 horas.',
+      image: 'https://images.unsplash.com/photo-1480714378408-67cf0d13bc1b?w=400&h=200&fit=crop',
+    },
+    Cozumel: {
+      description:
+        'Corte total de energía en la isla. Aproximadamente 5,000 habitantes sin servicio. Reportado por múltiples usuarios a las 13:00 horas. Barco de servicio técnico en ruta.',
+      image: 'https://images.unsplash.com/photo-1511632765486-a01980e01a18?w=400&h=200&fit=crop',
+    },
+    'Isla Mujeres': {
+      description:
+        'Intermitencia en el suministro eléctrico. Afectados sectores norte y central. Reportado por residente local. Equipo revisor en operaciones.',
+      image: 'https://images.unsplash.com/photo-1509042239860-f550ce710b93?w=400&h=200&fit=crop',
+    },
+    'Felipe Carrillo Puerto': {
+      description:
+        'Falla en línea de distribución principal. Zona rural con aproximadamente 3,200 personas afectadas. Reportado hace 1 hora. Técnicos en despliegue.',
+      image: 'https://images.unsplash.com/photo-1504384308090-c894fdcc538d?w=400&h=200&fit=crop',
+    },
   }
 
   majorZones.forEach((zone) => {
