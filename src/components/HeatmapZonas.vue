@@ -334,6 +334,55 @@ onMounted(() => {
               ? '#ffee58'
               : '#c5e1a5'
 
+    const severityColor =
+      zone.severity === 'Crítico'
+        ? 'bg-red-100 text-red-800'
+        : zone.severity === 'Alto'
+          ? 'bg-orange-100 text-orange-800'
+          : zone.severity === 'Medio'
+            ? 'bg-yellow-100 text-yellow-800'
+            : 'bg-green-100 text-green-800'
+
+    const popupContent = `
+      <div style="width: 320px; font-family: system-ui, -apple-system, sans-serif;">
+        <div style="margin-bottom: 12px;">
+          <h3 style="margin: 0 0 8px 0; font-size: 16px; font-weight: 600; color: #1e293b;">
+            ${zone.name}
+          </h3>
+          <div style="display: inline-block; padding: 4px 12px; border-radius: 9999px; font-size: 12px; font-weight: 600; color: #fff; background-color: ${color};">
+            Severidad: ${zone.severity}
+          </div>
+        </div>
+
+        <div style="margin-bottom: 12px; border-top: 1px solid #e2e8f0; padding-top: 12px;">
+          <div style="width: 100%; height: 180px; background: linear-gradient(135deg, #e2e8f0 0%, #cbd5e1 100%); border-radius: 8px; display: flex; align-items: center; justify-content: center; color: #64748b; font-size: 13px; text-align: center; padding: 16px; box-sizing: border-box;">
+            <div>
+              <svg style="width: 32px; height: 32px; margin: 0 auto 8px; opacity: 0.5;" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
+              </svg>
+              Imagen del reporte
+            </div>
+          </div>
+        </div>
+
+        <div style="margin-bottom: 12px; border-top: 1px solid #e2e8f0; padding-top: 12px;">
+          <label style="display: block; font-size: 12px; font-weight: 600; color: #64748b; margin-bottom: 6px;">
+            Descripción del reporte:
+          </label>
+          <textarea style="width: 100%; height: 80px; padding: 8px; border: 1px solid #e2e8f0; border-radius: 6px; font-size: 12px; font-family: inherit; resize: none; box-sizing: border-box;" placeholder="Detalles del reporte de corte de electricidad..."></textarea>
+        </div>
+
+        <div style="display: flex; gap: 8px; margin-top: 12px; border-top: 1px solid #e2e8f0; padding-top: 12px;">
+          <button style="flex: 1; padding: 8px 12px; background-color: #3b82f6; color: white; border: none; border-radius: 6px; font-size: 12px; font-weight: 600; cursor: pointer; transition: background-color 0.2s;">
+            Guardar
+          </button>
+          <button style="flex: 1; padding: 8px 12px; background-color: #e2e8f0; color: #64748b; border: none; border-radius: 6px; font-size: 12px; font-weight: 600; cursor: pointer; transition: background-color 0.2s;">
+            Cancelar
+          </button>
+        </div>
+      </div>
+    `
+
     L.circleMarker([zone.lat, zone.lng], {
       radius: 8,
       fillColor: color,
@@ -342,7 +391,11 @@ onMounted(() => {
       opacity: 1,
       fillOpacity: 0.8,
     })
-      .bindPopup(`<strong>${zone.name}</strong><br/>Severidad: ${zone.severity}`)
+      .bindPopup(popupContent, {
+        maxWidth: 350,
+        minWidth: 320,
+        closeButton: true,
+      })
       .addTo(map)
   })
 })
