@@ -93,6 +93,7 @@ watch(isDarkMode, (newValue) => {
         <ImportPage v-else-if="activeAuthPage === 'import'" />
         <BudgetsPage v-else-if="activeAuthPage === 'budgets'" />
         <UsersPage v-else-if="activeAuthPage === 'users'" />
+        <ZonasPage v-else-if="activeAuthPage === 'zonas'" />
       </AuthenticatedLayout>
     </template>
 
