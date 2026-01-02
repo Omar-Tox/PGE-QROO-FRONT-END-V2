@@ -1,12 +1,15 @@
 <template>
   <div class="space-y-6">
     <!-- Map Container -->
-    <div class="rounded-2xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 p-8 shadow-soft overflow-hidden">
+    <div
+      class="rounded-2xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 p-8 shadow-soft overflow-hidden"
+    >
       <h2 class="text-xl font-semibold text-slate-900 dark:text-slate-100 mb-2">
         Mapa de Zonas sin Electricidad
       </h2>
       <p class="text-slate-600 dark:text-slate-400 mb-6">
-        Visualización de áreas reportadas por usuarios con interrupciones de servicio eléctrico en Quintana Roo
+        Visualización de áreas reportadas por usuarios con interrupciones de servicio eléctrico en
+        Quintana Roo
       </p>
 
       <!-- Leaflet Map -->
@@ -51,12 +54,7 @@
             <p class="text-2xl font-bold text-slate-900 dark:text-slate-100 mt-1">2</p>
           </div>
           <div class="h-12 w-12 rounded-lg bg-red-100 dark:bg-red-900/20 grid place-items-center">
-            <svg
-              class="h-6 w-6 text-red-600"
-              fill="none"
-              viewBox="0 0 24 24"
-              stroke="currentColor"
-            >
+            <svg class="h-6 w-6 text-red-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path
                 stroke-linecap="round"
                 stroke-linejoin="round"
@@ -102,9 +100,7 @@
             <p class="text-sm font-medium text-slate-600 dark:text-slate-400">Total Reportes</p>
             <p class="text-2xl font-bold text-slate-900 dark:text-slate-100 mt-1">427</p>
           </div>
-          <div
-            class="h-12 w-12 rounded-lg bg-blue-100 dark:bg-blue-900/20 grid place-items-center"
-          >
+          <div class="h-12 w-12 rounded-lg bg-blue-100 dark:bg-blue-900/20 grid place-items-center">
             <svg
               class="h-6 w-6 text-blue-600"
               fill="none"
@@ -254,7 +250,7 @@ const zones: HeatmapPoint[] = [
   // Playa del Carmen area (high)
   { lat: 20.6296, lng: -87.0739, intensity: 0.75 },
   { lat: 20.63, lng: -87.07, intensity: 0.72 },
-  { lat: 20.64, lng: -87.08, intensity: 0.70 },
+  { lat: 20.64, lng: -87.08, intensity: 0.7 },
 
   // Cancún area (medium-high)
   { lat: 21.1619, lng: -86.8515, intensity: 0.58 },
@@ -278,8 +274,8 @@ const zones: HeatmapPoint[] = [
 
   // Additional scattered points across the state
   { lat: 20.1, lng: -87.5, intensity: 0.35 },
-  { lat: 20.3, lng: -87.3, intensity: 0.30 },
-  { lat: 20.7, lng: -87.2, intensity: 0.40 },
+  { lat: 20.3, lng: -87.3, intensity: 0.3 },
+  { lat: 20.7, lng: -87.2, intensity: 0.4 },
   { lat: 20.9, lng: -87.0, intensity: 0.28 },
   { lat: 19.8, lng: -87.8, intensity: 0.32 },
 ]
